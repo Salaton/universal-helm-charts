@@ -20,8 +20,13 @@ containers:
       - name: {{ .name }}
         value: {{ .value | quote }}
       {{- end }}
-    {{/*Change scope to the current item using `with` */}}
     {{- end }}
+    resources:
+      {{- if not .resources }}
+        {{- fail "Resource limits and requests must be specified for all containers." }}
+      {{- else }}
+        {{- toYaml .resources | nindent 6 }}
+      {{- end }}
     {{- if .volumeMounts }}
     volumeMounts:
       {{- range .volumeMounts }}
