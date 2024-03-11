@@ -1,0 +1,34 @@
+{{/*
+    Within a deployment, someone can have multiple containers. This approach allows one to define multiple containers
+    within the deployment. It can also include the sidecars
+*/}}
+{{- define "library.containers" -}}
+containers:
+  {{- range .Values.containers }}
+  - name: {{ .name }}
+    image: "{{ .image }}"
+    {{- if .ports }}
+    ports:
+      {{- range .ports }}
+      - name: {{ .name }}
+        containerPort: {{ .containerPort }}
+      {{- end }}
+    {{ end }}
+    {{- if .env }}
+    env:
+      {{- range .env }}
+      - name: {{ .name }}
+        value: {{ .value | quote }}
+      {{- end }}
+    {{/*Change scope to the current item using `with` */}}
+    {{- end }}
+    {{- if .volumeMounts }}
+    volumeMounts:
+      {{- range .volumeMounts }}
+      - name: {{ .name }}
+        mountPath: {{ .mountPath }}
+        readOnly: {{ .readOnly | default false }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}
