@@ -1,4 +1,4 @@
-apiVersion: v1
+{{/*apiVersion: v1
 kind: Pod
 metadata:
   name: "{{ include "base.fullname" . }}-test-connection"
@@ -12,4 +12,4 @@ spec:
       image: busybox
       command: ['wget']
       args: ['{{ include "base.fullname" . }}:{{ .Values.service.port }}']
-  restartPolicy: Never
+  restartPolicy: Never*/}}

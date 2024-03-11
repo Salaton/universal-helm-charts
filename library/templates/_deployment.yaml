@@ -4,7 +4,7 @@
 */}}
 {{- define "library.containers" -}}
 containers:
-  {{- range .Values.containers }}
+  {{- range .containers }}
   - name: {{ .name }}
     image: "{{ .image }}"
     {{- if .ports }}
