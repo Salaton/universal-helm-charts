@@ -52,6 +52,9 @@ containers:
       limits:
         cpu: "200m"
         memory: "256Mi"
+    configMapNames:
+      - my-first-configmap
+      - ip-masq-agent
 
   - name: mysidecar
     image: "mysidecar/image"
@@ -67,3 +70,23 @@ service:
   type: ClusterIP
   port: 80
   targetPort: 80
+
+replicaCount: 1
+
+configMaps:
+  - name: my-first-configmap
+    data:
+      key1: "value1"
+      key2: "value2"
+
+  - name: my-second-configmap
+    data:
+      key1: "value3"
+      key2: "value4"
+
+  - name: ip-masq-agent
+    data:
+      config: |
+        nonMasqueradeCIDRs: []
+        masqLinkLocal: false
+        resyncInterval: 300s

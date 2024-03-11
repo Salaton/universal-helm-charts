@@ -21,6 +21,13 @@ containers:
         value: {{ .value | quote }}
       {{- end }}
     {{- end }}
+    {{- if .configMapNames}}
+    envFrom:
+    {{- range .configMapNames }}
+      - configMapRef:
+        name: {{ . }}
+    {{- end }}
+    {{- end }}
     resources:
       {{- if not .resources }}
         {{- fail "Resource limits and requests must be specified for all containers." }}
