@@ -67,6 +67,15 @@ applications:
             masqLinkLocal: false
             resyncInterval: 300s
 
+    volumes:  # Define volumes at the application level
+      - name: my-volume
+        configMap:
+          name: my-config-map
+          
+      - name: my-secret-volume
+        secret:
+          secretName: my-secret-volume
+
   - name: app2
     ingress:
       enabled: true
