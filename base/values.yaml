@@ -49,6 +49,15 @@ applications:
         configMapNames:
           - my-first-configmap
           - ip-masq-agent
+          
+        volumeMounts:
+          - name: my-volume
+            mountPath: /etc/my-config
+            readOnly: true
+          - name: my-secret-volume
+            mountPath: /etc/my-secret
+            readOnly: true
+
     service:
       enabled: true
       type: ClusterIP
