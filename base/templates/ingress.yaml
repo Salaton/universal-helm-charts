@@ -1,24 +1,23 @@
-{{- range .Values.applications }}
-{{- if .ingress.enabled -}}
-{{- $svcPort := .service.port }}
-{{- $appName := .name }}
+{{- range $appName, $appValues := .Values.applications }}
+{{- if $appValues.ingress.enabled }}
+{{- $svcPort := $appValues.service.port }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{$appName }}
+  name: {{$appName}}
   labels:
-    app: {{$appName }}
-  {{- with .ingress.annotations }}
+    app: {{$appName}}
+  {{- with $appValues.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  {{- if and .ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
-  ingressClassName: {{ .ingress.className }}
+  {{- if and $appValues.ingress.className (semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion) }}
+  ingressClassName: {{ $appValues.ingress.className }}
   {{- end }}
-  {{- if .ingress.tls }}
+  {{- if $appValues.ingress.tls }}
   tls:
-    {{- range .ingress.tls }}
+    {{- range $appValues.ingress.tls }}
     - hosts:
         {{- range .hosts }}
         - {{ . | quote }}
@@ -27,7 +26,7 @@ spec:
     {{- end }}
   {{- end }}
   rules:
-    {{- range .ingress.hosts }}
+    {{- range $appValues.ingress.hosts }}
     - host: {{ .host | quote }}
       http:
         paths:
@@ -37,15 +36,10 @@ spec:
             pathType: {{ .pathType }}
             {{- end }}
             backend:
-              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
               service:
                 name: {{ $appName }}
                 port:
                   number: {{ $svcPort }}
-              {{- else }}
-              serviceName: {{ .name }}
-              servicePort: {{ .service.port }}
-              {{- end }}
           {{- end }}
     {{- end }}
 {{- end }}

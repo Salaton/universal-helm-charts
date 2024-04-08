@@ -1,19 +1,21 @@
-{{- range .Values.applications }}
-{{- if .service.enabled }}
+{{- range $appName, $appValues := .Values.applications }}
+{{- if $appValues.service.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .name }}
+  name: {{ $appName }}
   labels:
-    app: {{ .name }}
+    app: {{ $appName }}
 spec:
-  type: {{ .service.type }}
+  type: {{ $appValues.service.type }}
   ports:
-    - port: {{ .service.port }}
-      targetPort: {{ .service.targetPort }}
+    {{- range $appValues.service.ports }}
+    - port: {{ .port }}
+      targetPort: {{ .targetPort }}
       protocol: TCP
-      name: http
+      name: {{ .name }}
+    {{- end }}
   selector:
-    app: {{ .name }}
+    app: {{ $appName }}
 {{- end }}
 {{- end }}
