@@ -1,51 +1,49 @@
-{{- range .Values.applications }}
+{{- range $appName, $appValues := .Values.applications }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .name }}
+  name: {{ $appName }}
   labels:
-    app: {{ .name }}
+    app: {{ $appName }}
 spec:
-  {{- if not .autoscaling.enabled }}
-  replicas: {{ .replicaCount }}
+  {{- if not $appValues.autoscaling.enabled }}
+  replicas: {{ $appValues.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      app: {{ .name }}
+      app: {{ $appName }}
   template:
     metadata:
-      {{- with .podAnnotations }}
+      {{- with $appValues.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        app: {{ .name }}
+        app: {{ $appName }}
     spec:
-      {{- with .imagePullSecrets }}
+      {{- with $appValues.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       securityContext:
-        {{- toYaml .podSecurityContext | nindent 8 }}
-      containers:
-        {{- include "library.containers" . | nindent 8 }}
+        {{- toYaml $appValues.podSecurityContext | nindent 8 }}
+      {{- include "library.containers" $appValues | nindent 6 }}
 
-      {{- if .volumes }}
+      {{- if $appValues.volumes }}
       volumes:
-        {{- toYaml .volumes | nindent 8 }}
+        {{- toYaml $appValues.volumes | nindent 8 }}
       {{- end }}
         
-      {{- with .nodeSelector }}
+      {{- with $appValues.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .affinity }}
+      {{- with $appValues.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .tolerations }}
+      {{- with $appValues.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-
 {{- end }}

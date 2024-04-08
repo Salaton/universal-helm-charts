@@ -11,7 +11,7 @@ serviceAccount:
   name: ""
 
 applications:
-  - name: app1
+  app1:
     ingress:
       enabled: true
       className: ""
@@ -85,7 +85,7 @@ applications:
         secret:
           secretName: my-secret-volume
 
-  - name: app2
+  app2:
     ingress:
       enabled: true
       className: ""
