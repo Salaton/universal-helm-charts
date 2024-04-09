@@ -4,6 +4,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ $appName }}
+  namespace: {{ $appValues.namespace }}
   labels:
     app: {{ $appName }}
 spec:

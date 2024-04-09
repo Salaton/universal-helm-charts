@@ -4,6 +4,7 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: {{ $appName }}
+  namespace: {{ $appValues.namespace }}
   labels:
     app: {{ $appName }}
 spec:
