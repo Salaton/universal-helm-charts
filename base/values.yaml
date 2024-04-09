@@ -39,6 +39,9 @@ applications:
           runAsNonRoot: true
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+              - "NET_RAW"
         ports:
           - name: http
             containerPort: 80
@@ -113,6 +116,9 @@ applications:
           runAsNonRoot: true
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+              - "NET_RAW"
         ports:
           - name: http
             containerPort: 8080
