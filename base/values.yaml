@@ -34,6 +34,10 @@ applications:
       - name: app1
         image: "app1/image"
         imagePullPolicy: ""
+        securityContext:
+          runAsUser: 1001
+          runAsNonRoot: true
+          allowPrivilegeEscalation: false
         ports:
           - name: http
             containerPort: 80
@@ -103,6 +107,10 @@ applications:
     containers:
       - name: app2
         image: "app2/image"
+        securityContext:
+          runAsUser: 1001
+          runAsNonRoot: true
+          allowPrivilegeEscalation: false
         ports:
           - name: http
             containerPort: 8080
