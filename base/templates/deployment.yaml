@@ -31,6 +31,8 @@ spec:
         {{- toYaml $appValues.podSecurityContext | nindent 8 }}
         {{- else }}
         runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
         {{- end }}
       {{- include "library.containers" $appValues | nindent 6 }}
 
