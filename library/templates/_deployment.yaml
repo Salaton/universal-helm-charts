@@ -8,6 +8,13 @@ containers:
   - name: {{ .name }}
     image: "{{ .image }}"
     imagePullPolicy: {{ .imagePullPolicy | default "Always" }}
+    securityContext:
+      {{- if .securityContext }}
+      {{- toYaml .securityContext | nindent 6 }}
+      {{- else }}
+      runAsNonRoot: true
+      runAsUser: 1000  # Default UID, consider making this dynamic or required in values.yaml
+    {{- end }}
     {{- if .ports }}
     ports:
       {{- range .ports }}
