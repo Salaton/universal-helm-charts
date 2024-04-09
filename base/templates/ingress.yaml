@@ -5,6 +5,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{$appName}}
+  namespace: {{ $appValues.namespace }}
   labels:
     app: {{$appName}}
   {{- with $appValues.ingress.annotations }}

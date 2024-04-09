@@ -1,9 +1,12 @@
-{{- range .Values.configMaps }}
+{{- range $appName, $appValues := .Values.applications }}
+{{- range $appValues.configMaps }}
 apiVersion: apps/v1
 kind: ConfigMap
 metadata:
   name: {{ .name }}
+  namespace: {{ $appValues.namespace }}
 data:
   {{- toYaml .data | nindent 2 }}
 ---
+{{- end }}
 {{- end }}
