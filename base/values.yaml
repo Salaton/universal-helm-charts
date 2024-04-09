@@ -53,6 +53,13 @@ applications:
           initialDelaySeconds: 10
           periodSeconds: 5
 
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 5
+
         env:
           - name: EXAMPLE_VAR
             value: "example_value"
@@ -136,6 +143,13 @@ applications:
             path: /healthz
             port: 8080
           initialDelaySeconds: 10
+          periodSeconds: 5
+
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 15
           periodSeconds: 5
           
         env:
