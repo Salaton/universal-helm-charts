@@ -19,6 +19,10 @@ containers:
     livenessProbe:
       {{- toYaml .livenessProbe | nindent 6 }}
     {{- end }}
+    {{- if .readinessProbe }}
+    readinessProbe:
+      {{- toYaml .readinessProbe | nindent 6 }}
+    {{- end }}
     {{- if .ports }}
     ports:
       {{- range .ports }}
