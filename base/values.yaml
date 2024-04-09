@@ -38,6 +38,7 @@ applications:
           runAsUser: 1001
           runAsNonRoot: true
           allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
         ports:
           - name: http
             containerPort: 80
@@ -108,9 +109,10 @@ applications:
       - name: app2
         image: "app2/image"
         securityContext:
-          runAsUser: 1001
+          runAsUser: 1002
           runAsNonRoot: true
           allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
         ports:
           - name: http
             containerPort: 8080
